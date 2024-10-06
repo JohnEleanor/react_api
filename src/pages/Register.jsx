@@ -38,7 +38,7 @@ function Register() {
             redirect: "follow"
         };
 
-        fetch("https://www.melivecode.com/api/users/create", requestOptions)
+        fetch("http://127.0.0.1/WEB_DEV/Auth_api/API.php/v1/register", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.status == 'ok') {
@@ -47,15 +47,14 @@ function Register() {
                         text: `ยินดีต้อนรับคุณ ${result.user.username} 🙏`,
                         icon: 'success',
                         confirmButtonText: 'Cool'
-                    }).then((v) => {
-                        // console.log('v', v);
+                    }).then(() => {
                         localStorage.setItem('token', result.accessToken);
                         navigate("/");
                     })
                 } else {
                     MySwal.fire({
                         title: result.message,
-                        // text: `ยินดีต้อนรับคุณ ${result.user.username} 🙏`,
+                        text: `เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง`,
                         icon: 'error',
                         confirmButtonText: 'Ok'
                     })
@@ -65,74 +64,7 @@ function Register() {
     }
     return (
         <>
-            {/* <h2>Register</h2>
 
-            <form onSubmit={handeleSubmit}>
-
-                <label>
-                    Enter Your First Name:
-                    <input
-                        type="text"
-                        name='fname'
-                        value={inputs.fname || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Enter Your Last Name:
-                    <input
-                        type="text"
-                        name='lname'
-                        value={inputs.lname || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Enter Your Username:
-                    <input
-                        type="text"
-                        name='username'
-                        value={inputs.username || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Enter Your Password:
-                    <input
-                        type="password"
-                        name='password'
-                        value={inputs.password || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>
-                    Enter Your Email:
-                    <input
-                        type="email"
-                        name='email'
-                        value={inputs.email || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <label>Enter your Avatar:
-                    <input
-                        type="text"
-                        name="avatar"
-                        value={inputs.avatar || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <br />
-                <input type="submit" />
-
-
-            </form>
-            <p>I Have Account <Link to='/'>Login</Link></p> */}
             <div className='flex min-h-full flex-col justify-center px-6 py-12 lg:px-8'>
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img className="mx-auto h-10 w-auto" src="https://cdn-icons-png.flaticon.com/512/164/164379.png" alt="Your Company" />
@@ -150,16 +82,23 @@ function Register() {
                                 ชื่อผู้ใช้
                             </label>
                             <div className="mt-2">
-                                <input
-                                    id="username"
-                                    name="username"
-                                    type="text"
-                                    required
-                                    autoComplete="username"
-                                    value={inputs.username || ""}
-                                    onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
+                                <label className="input input-bordered input-sm flex items-center gap-2">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 16 16"
+                                        fill="currentColor"
+                                        className="h-4 w-4 opacity-70">
+                                        <path
+                                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                                    </svg>
+                                    <input type="text" className="grow " placeholder="ชื่อผู้ใช้"
+                                        id="username"
+                                        name="username"
+                                        required
+                                        autoComplete="username"
+                                        value={inputs.username || ""}
+                                        onChange={handleChange} />
+                                </label>
                             </div>
                         </div>
 
@@ -168,16 +107,25 @@ function Register() {
                                 รหัสผ่าน
                             </label>
                             <div className="mt-2">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="text"
-                                    required
-                                    autoComplete="password"
-                                    value={inputs.password || ""}
-                                    onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
+                                <label className="input input-bordered input-sm flex items-center gap-2">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 16 16"
+                                        fill="currentColor"
+                                        className="h-4 w-4 opacity-70">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                                            clipRule="evenodd" />
+                                    </svg>
+                                    <input type="text" className="grow " placeholder="ชื่อผู้ใช้"
+                                        id="password"
+                                        name="password"
+                                        required
+                                        autoComplete="password"
+                                        value={inputs.password || ""}
+                                        onChange={handleChange} />
+                                </label>
                             </div>
                         </div>
 
@@ -188,16 +136,23 @@ function Register() {
                                 ชื่อจริง
                             </label>
                             <div className="mt-2">
-                                <input
-                                    id="fname"
-                                    name="fname"
-                                    type="text"
-                                    required
-                                    autoComplete="username"
-                                    value={inputs.fname || ""}
-                                    onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
+                                <label className="input input-bordered input-sm flex items-center gap-2">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 16 16"
+                                        fill="currentColor"
+                                        className="h-4 w-4 opacity-70">
+                                        <path
+                                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                                    </svg>
+                                    <input type="text" className="grow " placeholder="ชื่อจริง"
+                                        id="fname"
+                                        name="fname"
+                                        required
+                                        autoComplete="fname"
+                                        value={inputs.fname || ""}
+                                        onChange={handleChange} />
+                                </label>
                             </div>
                         </div>
 
@@ -206,36 +161,52 @@ function Register() {
                                 นามสกุล
                             </label>
                             <div className="mt-2">
-                                <input
-                                    id="lname"
-                                    name="lname"
-                                    type="text"
-                                    required
-                                    autoComplete="username"
-                                    value={inputs.lname || ""}
-                                    onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
+                                <label className="input input-bordered input-sm flex items-center gap-2">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 16 16"
+                                        fill="currentColor"
+                                        className="h-4 w-4 opacity-70">
+                                        <path
+                                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                                    </svg>
+                                    <input type="text" className="grow " placeholder="นามมสกุล"
+                                        id="lname"
+                                        name="lname"
+                                        required
+                                        autoComplete="lname"
+                                        value={inputs.lname || ""}
+                                        onChange={handleChange} />
+                                </label>
                             </div>
                         </div>
 
-                       
+
 
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                 อีเมลล์
                             </label>
                             <div className="mt-2">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="text"
-                                    required
-                                    value={inputs.password || ""}
-                                    onChange={handleChange}
-                                    autoComplete="password"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
+                                <label className="input input-bordered input-sm flex items-center gap-2">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 16 16"
+                                        fill="currentColor"
+                                        className="h-4 w-4 opacity-70">
+                                        <path
+                                            d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                                        <path
+                                            d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                                    </svg>
+                                    <input type="text" className="grow " placeholder="ชื่อผู้ใช้"
+                                        id="email"
+                                        name="email"
+                                        required
+                                        autoComplete="email"
+                                        value={inputs.email || ""}
+                                        onChange={handleChange} />
+                                </label>
                             </div>
                         </div>
 

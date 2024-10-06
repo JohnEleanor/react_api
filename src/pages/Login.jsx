@@ -4,10 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
+
 function Login() {
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal)
   const [inputs, setInputs] = useState({});
+  const LOGIN_PATH = 'http://127.0.0.1/WEB_DEV/Auth_api/API.php/v1/login';
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -34,31 +36,29 @@ function Login() {
 
     };
 
-    fetch("https://www.melivecode.com/api/login", requestOptions)
+    fetch('http://127.0.0.1/WEB_DEV/Auth_api/API.php/v1/login', requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
 
-     
-        if (result.message === "Logged in" || result.status == 'ok') {
+
+        if (result.message === "เข้าสู่ระบบสำเร็จ" || result.status == 'ok') {
           MySwal.fire({
             title: result.message,
-            text: `เข้าสู่ระบบสำเร็จ ยินดีต้อนรับคุณ ${result.user.username} 🙏`,
+            text: `เข้าสู่ระบบสำเร็จ ยินดีต้อนรับคุณ ${result.user.name} 🙏`,
             icon: 'success',
             timer: 2000,
             timerProgressBar: true,
             showCancelButton: false,
-            // confirmButtonText: 'Ok',
           }).then((v) => {
-            // console.log('v', v);
-            localStorage.setItem('token', result.accessToken);
+            localStorage.setItem('token', result.token);
             navigate("/profile");
           })
 
         } else {
           MySwal.fire({
             title: result.message,
-            text: `Please Try Again`,
+            text: `อีเมลหรือรหัสผ่านไม่ถูกต้อง`,
             icon: 'error',
             confirmButtonText: 'Ok'
           })
@@ -88,36 +88,48 @@ function Login() {
                 ชื่อผู้ใช้
               </label>
               <div className="mt-2">
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  required
-                  autoComplete="username"
-                  value={inputs.username || ""}
-                  onChange={handleChange}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+                <label className="input input-bordered input-sm flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="h-4 w-4 opacity-70">
+                    <path
+                      d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                  </svg>
+                  <input type="text" className="grow " placeholder="ชื่อผู้ใช้"
+                    id="username"
+                    name="username"
+                    required
+                    autoComplete="username"
+                    value={inputs.username || ""}
+                    onChange={handleChange} />
+                </label>
               </div>
             </div>
 
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                รหัสผ่าน
+              <label className="input input-bordered input-sm flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="h-4 w-4 opacity-70">
+                  <path
+                    fillRule="evenodd"
+                    d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                    clipRule="evenodd" />
+                </svg>
+                <input type="password" className="grow" 
+                id="password"
+                name="password"
+                required
+                value={inputs.password || ""}
+                placeholder='รหัสผ่าน'
+                onChange={handleChange}
+                autoComplete="password" />
               </label>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="text"
-                  required
-                  value={inputs.password || ""}
-                  onChange={handleChange}
-                  autoComplete="password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
             </div>
 
             <div>
@@ -133,7 +145,7 @@ function Login() {
           <p className="mt-10 text-center text-sm text-gray-500">
             ฉันยังไม่มีบัญชีผู้ใช้
             <Link to="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-               สมัครสมาชิก
+              สมัครสมาชิก
             </Link>
           </p>
         </div>
